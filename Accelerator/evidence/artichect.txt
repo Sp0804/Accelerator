@@ -1,0 +1,10 @@
+1. Medallion Data Isolation: Segregate raw ingestion data (Bronze), cleansed relational records (Silver), and aggregated business metrics (Gold).
+2. OneLake Absolute Namespace Alignment: Utilize a unified organizational OneLake framework to eliminate data silos.
+3. Decoupled Compute & Storage Architecture: Leverage independent Spark session clusters to run computational transformations.
+4. Programmatic Session Configurations: Hardcode specific database contexts inside script definitions rather than relying on unstable UI states.
+5. Schema Drift Defenses: Implement programmatic overwriteSchema settings during table updates to automatically capture changes.
+6. Strict 3-Part Namespace Resolution: Map catalog references across an explicit [Lakehouse].[Schema].[Table] structure.
+7. Sequential Pipeline Ingestion Routing: Chain ingestion tasks directly into data refinement processes using strict triggers.
+8. Decoupled Event-Driven Notifications: Wire automated tracking actions to only fire after downstream processing engines confirm error-free execution.
+9. Delta Lake Format Standard: Store all core analytical tables exclusively as ACID-compliant Delta tables.
+10. Data Token Access Security: Use isolated service accounts or explicit container-bound authentication structures to shield credentials.

@@ -1,0 +1,39 @@
+===================================================================
+WEEK 2 / DAY 10: TASK 2.5 - GOLD BUSINESS AGGREGATION FRAMEWORK v1
+===================================================================
+DOCUMENT PURPOSE: REUSABLE BUSINESS DATA AGGREGATION & REPORTING BLUEPRINT
+
+OFFICIAL BLUEPRINT REFERENCES:
+- Microsoft Fabric Medallion Architecture: https://microsoft.com
+- Power BI Semantic Model Direct Lake: https://microsoft.com
+
+-------------------------------------------------------------------
+SECTION 1: REUSABLE BUSINESS METRIC AGGREGATION PATTERNS
+-------------------------------------------------------------------
+Every script transforming data from Silver to Gold must aggregate transactional records into curated business dimensions and facts to optimize dashboard speeds:
+
+1. DIMENSIONAL MODELING COMPLIANCE:
+   - Data must be structured using standard Star Schema layouts.
+   - Transactional records must be split into central Fact tables (e.g., fact_taxi_trips) surrounded by cached Dimension tables (e.g., dim_zones, dim_date).
+
+2. AGGREGATION CODE TEMPLATE:
+   - Business summaries must pre-calculate key metrics at day/week intervals.
+   - Code pattern: gold_summary_df = silver_df.groupBy("pickup_date", "rate_code_id").agg(sum("total_amount").alias("daily_revenue_amt"), count("trip_id").alias("total_trip_count"))
+
+-------------------------------------------------------------------
+SECTION 2: DATA REFRESH MODE PERFORMANCE STANDARD
+-------------------------------------------------------------------
+1. NATIVE V-ORDER OPTIMIZATION:
+   - When writing finalized dataframes out to the Gold catalog layer, scripts must explicitly trigger OneLake V-Order sorting configurations.
+   - Architectural Note: V-Order structures parquet file metadata natively to supercharge Direct Lake reporting query response times inside Power BI.
+
+2. STORAGE MODE INTEGRATION:
+   - All Gold catalog assets must be optimized exclusively for Power BI Direct Lake Mode. This allows Power BI to query massive Delta parquet records straight out of storage in real time, bypassing slow Import refreshes or lagging DirectQuery modes.
+
+-------------------------------------------------------------------
+SECTION 3: SYSTEM QUALITY ASSURANCE TESTING
+-------------------------------------------------------------------
+Before a Gold data pipeline execution is finalized, it must run automated data quality verification assertions:
+1. Aggregate Balance Verification: Ensures that total revenue numbers calculated in the Gold layer match the baseline numbers calculated in the parent Silver layer exactly.
+2. Direct Relationship Integrity Pass: Verifies that all lookup key columns inside Fact data blocks align perfectly with their corresponding dimension tables without creating orphan rows.
+3. Dimensional Null Assertion: Confirms that critical reporting attributes contain zero blank or null values before delivering data to executive reporting dashboards.

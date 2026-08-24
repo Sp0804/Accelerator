@@ -1,0 +1,45 @@
+===================================================================
+WEEK 2 / DAY 12: TASK 2.7 - DEVOPS CI/CD DEPLOYMENT FRAMEWORK v1
+===================================================================
+DOCUMENT PURPOSE: REUSABLE CONTINUOUS INTEGRATION & DEPLOYMENT BLUEPRINT
+
+OFFICIAL BLUEPRINT REFERENCES:
+- Fabric CI/CD Management Tools: https://github.com
+- Fabric CLI Administration Portal: https://github.com
+
+-------------------------------------------------------------------
+SECTION 1: CODE BRANCHING & ENVIRONMENT STRATEGY
+-------------------------------------------------------------------
+To guarantee platform stability, our deployment framework enforces a strict 3-tier isolated environment path matching our Git repository branch layout:
+
+1. DEVELOPMENT LAYER (DEV):
+   - Branch Binding: Tied directly to individual feature branches and the `dev` branch.
+   - Purpose: Sandbox environment where engineers write code and run manual cell tests.
+
+2. STAGING LAYER (STAGE):
+   - Branch Binding: Tied directly to the `release` branch.
+   - Purpose: Automated environment for performance stress tests and data validation runs.
+
+3. PRODUCTION LAYER (PROD):
+   - Branch Binding: Tied directly to the absolute master `main` branch.
+   - Purpose: Locked down live business reporting layer. Direct edits are completely blocked.
+
+-------------------------------------------------------------------
+SECTION 2: AUTOMATED TESTING & BUILD PASS GATES
+-------------------------------------------------------------------
+Every time an engineer attempts to merge new code into the project, the automated GitHub Actions pipeline must run and pass these 3 gate checks:
+
+1. CELL COMPILATION PASS:
+   - Automated scripts parse all Fabric Notebook JSON files to verify that zero syntax errors or broken python references exist.
+
+2. PARAMETER DECOUPLING VALIDATION:
+   - Checks that all workspace target strings and connection paths are fully dynamic, ensuring that a script never contains hardcoded private workspace names.
+
+3. DATA PIPELINE LINK CONFIRMATION:
+   - Validates that all Data Factory pipeline activity links form a valid, continuous loop with zero orphaned activity blocks.
+
+-------------------------------------------------------------------
+SECTION 3: WORKSPACE DEPLOYMENT AUTOMATION
+-------------------------------------------------------------------
+1. PLATFORM TOOL ENGINE: Deployment packages must leverage the official Microsoft `fabric-cli` and `fabric-cicd` automation engines to synchronize workspace assets programmatically.
+2. SYNCHRONIZATION TRIGGER: Merging a Pull Request (PR) into the `main` branch automatically fires a deployment pipeline that exports the modified files, converts them to Fabric deployment blocks, and overrides the production workspace state instantly without manual button clicks.

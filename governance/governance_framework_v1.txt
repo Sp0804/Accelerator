@@ -1,0 +1,28 @@
+===================================================================
+WEEK 2 / DAY 14: TASK 2.9 - GOVERNANCE & ACCESS SECURITY FRAMEWORK
+===================================================================
+DOCUMENT PURPOSE: REUSABLE DATA GOVERNANCE & ENTITY SECURITY BLUEPRINT
+
+OFFICIAL BLUEPRINT REFERENCES:
+- Microsoft Fabric Governance Standard: https://microsoft.com
+- Semantic Link Labs Repository: https://github.com
+
+-------------------------------------------------------------------
+SECTION 1: DATA CLASSIFICATION & PRIVACY STANDARDS
+-------------------------------------------------------------------
+To protect corporate data assets, all tables entering the Fabric architecture must be audited and tagged using strict classification tiers:
+
+1. PUBLIC TIER: General corporate records containing zero competitive or private data. Requires basic viewer restrictions.
+2. CONFIDENTIAL PI/PII TIER: Restricts access to sensitive private information (e.g., precise GPS trip coordinates, credit card tokens, customer names).
+   - Compliance Rule: Programmatic masking functions must overwrite sensitive text strings natively inside the Silver layer before making data frames accessible to reporting users.
+
+-------------------------------------------------------------------
+SECTION 2: GRANULAR ACCESS CONTROL STRATEGY
+1. SYSTEM-LEVEL PERMISSIONS: Workspace roles must follow the principle of least privilege. End business consumers are restricted to 'Viewer' status and blocked from accessing underlying Spark cluster notebooks.
+2. ROW-LEVEL SECURITY (RLS): Enforce dynamic filtering predicates inside Power BI Semantic Models to ensure regional sales operators can only query data matching their specific region keys.
+
+-------------------------------------------------------------------
+SECTION 3: DATA LINEAGE & CATALOG MANAGEMENT
+-------------------------------------------------------------------
+1. METADATA CATALOG ENDPOINT: All production schemas must register upstream and downstream data origins using Semantic Link Labs automation scanners.
+2. END-TO-END VISIBILITY: The catalog blueprint must show the full lifecycle path: tracing how raw blobs (`Bronze`) flow into cleaned entities (`Silver`) and roll up into business KPIs (`Gold`).

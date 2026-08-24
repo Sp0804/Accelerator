@@ -1,0 +1,47 @@
+===================================================================
+WEEK 2 / DAY 8: TASK 2.3 - SILVER TRANSFORMATION FRAMEWORK v1
+===================================================================
+DOCUMENT PURPOSE: REUSABLE DATA CLEANSING & TRANSFORMATION BLUEPRINT
+
+OFFICIAL BLUEPRINT REFERENCES:
+- Semantic Link Labs Repository: https://github.com
+- Data Factory Testing Framework: https://github.com
+
+-------------------------------------------------------------------
+SECTION 1: REUSABLE TRANSFORMATION & DATA REFINEMENT PATTERNS
+-------------------------------------------------------------------
+Every script moving data from Bronze to Silver must implement these core programmatic PySpark transformations to guarantee data quality:
+
+1. RECORD DUPLICATION SCRUBBING:
+   - Every entity pipeline must execute deduplication checks based on its composite business keys before committing data.
+   - Code pattern: df = df.dropDuplicates(["business_key_column"])
+
+2. TYPE CASTING & DATETIME ALIGNMENT:
+   - Untyped string fields from Bronze must be strictly cast to operational data types (Integer, Double, Boolean).
+   - Datetime fields must be explicitly synchronized to timestamps to support clean delta historical intervals.
+
+-------------------------------------------------------------------
+SECTION 2: SCHEMA DRIFT DEFENCE STRATEGY
+-------------------------------------------------------------------
+To handle sudden column additions or formatting changes coming from raw upstream source systems without crashing your active pipelines, apply this two-step defence mechanism:
+
+1. METADATA EVOLUTION FLAG:
+   - When writing the cleaned DataFrame out to your Delta storage catalog layer, always pass the 'overwriteSchema' option to automatically evolve the metadata tree.
+   - Code pattern: df.write.format("delta").mode("overwrite").option("overwriteSchema", "true")
+
+2. NULLABLE SAFEGUARD FALLBACKS:
+   - Missing fields must be safely caught and mapped as null values instead of raising unhandled system processing exceptions.
+
+-------------------------------------------------------------------
+SECTION 3: WRITE MODE PERFORMANCE STANDARD
+-------------------------------------------------------------------
+1. MERGE/UPSERT STRATEGY: For transactional tables requiring conditional point-in-time record updates, use Delta Lake MERGE INTO statements based on row change keys.
+2. SCHEDULING INTERVAl: Silver transformation tasks must execute via coordinated Spark notebooks immediately following the successful completion of the Bronze copy jobs.
+
+-------------------------------------------------------------------
+SECTION 4: QUALITY TESTING & VALIDATION BASES
+-------------------------------------------------------------------
+Before finalizing a pipeline run, the framework executes automated validation checks to enforce compliance:
+1. Column Count Verification: Validates that critical primary identifiers contain exactly zero null records (`df.filter(col("primary_key").isNull()).count() == 0`).
+2. Schema Data Type Testing: Uses Semantic Link Labs assertions to verify that data shapes conform exactly to the master schema model.
+3. Row Count Bounds Pass: Asserts that processing didn't drop entire blocks of valid business data accidentally during the transformation loop.

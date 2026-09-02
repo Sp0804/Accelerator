@@ -8,14 +8,27 @@
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
-# META       "default_lakehouse": "cc80a0ab-603d-4df9-bdfc-c35a7e8ab095",
+# META       "default_lakehouse": "__SILVER_LAKEHOUSE_ID__",
 # META       "default_lakehouse_name": "lh_silver",
-# META       "default_lakehouse_workspace_id": "8d8d00a7-0e8a-4e3b-8c0e-8dcafac7adec"
+# META       "default_lakehouse_workspace_id": "__WORKSPACE_ID__"
 # META     }
 # META   }
 # META }
 
 # CELL ********************
+
+# Runtime environment parameters. The deployment configuration supplies the workspace ID.
+BronzeWorkspaceID = None
+BronzeLakehouseName = "lh_bronze"
+SilverWorkspaceID = None
+SilverLakehouseName = "lh_silver"
+
+bronzeWorkspaceId = BronzeWorkspaceID or SilverWorkspaceID
+silverWorkspaceId = SilverWorkspaceID or BronzeWorkspaceID
+goldWorkspaceId = silverWorkspaceId
+bronzeLakehouseName = BronzeLakehouseName
+silverLakehouseName = SilverLakehouseName
+goldLakehouseName = "lh_gold"
 
 spark.conf.set("spark.native.enabled", "true")
 
@@ -89,6 +102,29 @@ WatermarkColName = None
 InputRawTable = None
 DataFromTimestamp = None
 DataToTimestamp = None
+BronzeWorkspaceID = None
+BronzeLakehouseName = "lh_bronze"
+SilverWorkspaceID = None
+SilverLakehouseName = "lh_silver"
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# Resolve runtime environment values for shared DeltaLakeFunctions.
+bronzeWorkspaceId = BronzeWorkspaceID or SilverWorkspaceID
+silverWorkspaceId = SilverWorkspaceID or BronzeWorkspaceID
+goldWorkspaceId = silverWorkspaceId
+bronzeLakehouseName = BronzeLakehouseName
+silverLakehouseName = SilverLakehouseName
+goldLakehouseName = "lh_gold"
+
+%run /DeltaLakeFunctions
 
 # METADATA ********************
 
@@ -121,7 +157,7 @@ DataToTimestamp = None
 # OutputDWTableWriteMode = 'overwrite'
 # ReRunL1TransformFlag = None
 # WatermarkColName = None
-# InputRawTable = 'WideWorldImporters-mirror.Application.PaymentMethods'
+# InputRawTable = '__SOURCE_DB_NAME__-mirror.Application.PaymentMethods'
 # DataFromTimestamp = '1900-01-01T00:00:00Z'
 # DataToTimestamp = '2026-04-25T23:53:46Z'
 

@@ -16,7 +16,9 @@
 
 # CELL ********************
 
-%run /EnvSettings
+# Environment values are supplied by the calling notebook (for example, L1Transform-Generic-Fabric).
+# Required globals: bronzeWorkspaceId, silverWorkspaceId, goldWorkspaceId,
+# bronzeLakehouseName, silverLakehouseName, goldLakehouseName.
 
 # METADATA ********************
 

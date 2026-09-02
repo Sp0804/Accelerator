@@ -33,11 +33,11 @@
           "datasetSettings": {
             "type": "AzureSqlTable",
             "typeProperties": {
-              "database": "controlDB-78d6902e-70ea-4fb0-b51e-af3f2aaee3b7"
+              "database": "__CONTROL_DB_NAME__"
             },
             "schema": [],
             "externalReferences": {
-              "connection": "78e8d795-a55c-412e-9b76-47ba404b4d51"
+              "connection": "__CONTROL_DB_CONNECTION_ID__"
             },
             "annotations": []
           },
@@ -243,6 +243,10 @@
             "SilverWorkspaceID": {
               "value": "@pipeline().parameters.SilverWorkspaceID",
               "type": "Expression"
+            },
+            "BronzeWorkspaceID": {
+              "value": "@pipeline().parameters.BronzeWorkspaceID",
+              "type": "Expression"
             }
           },
           "waitOnCompletion": true
@@ -255,7 +259,7 @@
           {
             "activity": "ForEach SQL Table",
             "dependencyConditions": [
-              "Completed"
+              "Succeeded"
             ]
           }
         ]
@@ -275,19 +279,19 @@
       },
       "BronzeObjectID": {
         "type": "string",
-        "defaultValue": "c6c5024f-de55-45ca-a79a-decbe16235e3"
+        "defaultValue": "__BRONZE_LAKEHOUSE_ID__"
       },
       "BronzeWorkspaceID": {
         "type": "string",
-        "defaultValue": "8d8d00a7-0e8a-4e3b-8c0e-8dcafac7adec"
+        "defaultValue": "__WORKSPACE_ID__"
       },
       "SilverObjectID": {
         "type": "string",
-        "defaultValue": "cc80a0ab-603d-4df9-bdfc-c35a7e8ab095"
+        "defaultValue": "__SILVER_LAKEHOUSE_ID__"
       },
       "SilverWorkspaceID": {
         "type": "string",
-        "defaultValue": "8d8d00a7-0e8a-4e3b-8c0e-8dcafac7adec"
+        "defaultValue": "__WORKSPACE_ID__"
       }
     }
   }

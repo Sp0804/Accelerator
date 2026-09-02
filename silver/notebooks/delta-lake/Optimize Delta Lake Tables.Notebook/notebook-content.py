@@ -8,9 +8,9 @@
 # META   },
 # META   "dependencies": {
 # META     "lakehouse": {
-# META       "default_lakehouse": "cc80a0ab-603d-4df9-bdfc-c35a7e8ab095",
+# META       "default_lakehouse": "__SILVER_LAKEHOUSE_ID__",
 # META       "default_lakehouse_name": "lh_silver",
-# META       "default_lakehouse_workspace_id": "8d8d00a7-0e8a-4e3b-8c0e-8dcafac7adec"
+# META       "default_lakehouse_workspace_id": "__WORKSPACE_ID__"
 # META     }
 # META   }
 # META }
@@ -20,6 +20,14 @@
 # ### Spark Optimization Configs
 
 # CELL ********************
+
+# Environment values are resolved by devops/configure-env.py before Git sync.
+bronzeWorkspaceId = "__WORKSPACE_ID__"
+silverWorkspaceId = "__WORKSPACE_ID__"
+goldWorkspaceId = "__WORKSPACE_ID__"
+bronzeLakehouseName = "lh_bronze"
+silverLakehouseName = "lh_silver"
+goldLakehouseName = "lh_gold"
 
 spark.conf.set("spark.native.enabled", "true")
 
